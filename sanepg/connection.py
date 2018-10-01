@@ -14,10 +14,16 @@ except Exception:
 
 
 class _Connection:
-    def __init__(self, dsn):
+    def __init__(self, dsn,
+            connectionFactory = None,
+            cursorFactory     = None,
+            ):
         self._dsn  = dsn
         self._conn = None
         self._fd   = None
+
+        self.connectionFactory = connectionFactory
+        self.cursorFactory     = cursorFactory
 
         self._ioloop = tornado.ioloop.IOLoop.current()
 
@@ -43,7 +49,7 @@ class _Connection:
 
     def execute(self, future, statement, *args):
         #kwargs = {"cursor_factory": cursor_factory} if cursor_factory else {}
-        cursor = self._conn.cursor()
+        cursor = self._conn.cursor(cursor_factory = self.cursorFactory)
         try:
             cursor.execute(statement, args)
         except psycopg2.ProgrammingError as e:
@@ -75,4 +81,4 @@ class _Connection:
         elif state == psycopg2.extensions.POLL_WRITE:
             self._ioloop.update_handler(self._fd, tornado.ioloop.IOLoop.WRITE)
         else:
-            future.set_exception(sanepg.SaneError("poll() returned %s", state))
+            future.set_exception(sanepg.SaneError('unknown state: %s', state))

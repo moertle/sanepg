@@ -20,11 +20,14 @@ def connect(dsn, *args, **kwds):
 class Pool:
     def __init__(self, dsn,
             size    = 2,
-            maxSize = None
+            maxSize = None,
+            **connectionKeywords
             ):
         self._dsn    = dsn
         self.size    = size
         self.maxSize = maxSize
+
+        self.connectionKeywords = connectionKeywords
 
         self._totalConnections = 0
         self._ioloop = tornado.ioloop.IOLoop.current()
@@ -47,7 +50,7 @@ class Pool:
                 connectionFuture.set_result(self)
 
         for idx in range(count):
-            connection = _Connection(self._dsn)
+            connection = _Connection(self._dsn, **self.connectionKeywords)
             self._ioloop.add_future(connection.connect(), onConnect)
 
         return connectionFuture
