@@ -27,9 +27,9 @@ class _Connection:
 
         self._ioloop = tornado.ioloop.IOLoop.current()
 
-        self._options = dict(
-            async = True,
-            )
+        self._options = {
+            'async' : True,
+            }
 
     def connect(self):
         self._conn = psycopg2.connect(self._dsn, **self._options)
