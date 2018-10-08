@@ -5,4 +5,4 @@ __copyright__ = '(c)2018, Matthew Oertle'
 __credits__   = ['Matthew Oertle']
 
 __license__   = 'MIT'
-__version__   = '0.0.2'
+__version__   = '0.0.3'
