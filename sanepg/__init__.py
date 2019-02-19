@@ -1,6 +1,7 @@
 
 from .pool import Pool
 
+import tornado.ioloop
 
 # a generic error class for throwing exceptions
 class SaneError(Exception):
