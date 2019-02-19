@@ -10,7 +10,7 @@ try:
     import psycopg2
     psycopg2.extensions.POLL_OK
 except Exception:
-    raise ImportError('Minimum version 2.2.0 of psycopg2') from None
+    raise ImportError('Please upgrade psycopg2') from None
 
 
 class _Connection:
