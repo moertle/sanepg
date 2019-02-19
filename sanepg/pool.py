@@ -7,16 +7,6 @@ import sanepg
 from .connection import _Connection
 
 
-# factory function to connect a pool
-def connect(dsn, *args, **kwds):
-    pool = Pool(dsn, *args, **kwds)
-    ioloop = tornado.ioloop.IOLoop.current()
-    try:
-        return ioloop.run_sync(pool.connect)
-    except sanepg.SaneError as e:
-        raise
-
-
 class Pool:
     def __init__(self, dsn,
             size    = 2,

@@ -48,7 +48,6 @@ class _Connection:
         return future
 
     def execute(self, future, statement, *args):
-        #kwargs = {"cursor_factory": cursor_factory} if cursor_factory else {}
         cursor = self._conn.cursor(cursor_factory = self.cursorFactory)
         try:
             cursor.execute(statement, args)
