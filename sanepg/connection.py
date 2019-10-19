@@ -14,10 +14,7 @@ except Exception:
 
 
 class _Connection:
-    def __init__(self, dsn,
-            connectionFactory = None,
-            cursorFactory     = None,
-            ):
+    def __init__(self, dsn, connectionFactory=None, cursorFactory=None):
         self._dsn  = dsn
         self._conn = None
         self._fd   = None

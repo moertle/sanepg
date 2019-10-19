@@ -8,11 +8,7 @@ from .connection import _Connection
 
 
 class Pool:
-    def __init__(self, dsn,
-            size    = 2,
-            maxSize = None,
-            **connectionKeywords
-            ):
+    def __init__(self, dsn, size=2, maxSize=None, **connectionKeywords):
         self._dsn    = dsn
         self.size    = size
         self.maxSize = maxSize
