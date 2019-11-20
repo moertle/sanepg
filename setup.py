@@ -17,6 +17,7 @@ setup(
         'sanepg',
         ],
     install_requires = [
+        'psycopg2',
         'tornado',
         ],
     classifiers=[
