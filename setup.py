@@ -11,7 +11,7 @@ setup(
     version            = __version__,
     license            = __license__,
     url                = 'http://oertle.org/sanepg',
-    description        = 'Python3 Tornado asynchronous pyscopg2 driver',
+    description        = 'Python 3 Tornado asynchronous pyscopg2 driver',
     long_description   = open('README.rst').read(),
     packages = [
         'sanepg',

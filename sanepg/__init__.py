@@ -1,7 +1,7 @@
 
-from .pool import Pool
+from .version import __version__
+from .pool    import connect
 
-import tornado.ioloop
 
 # a generic error class for throwing exceptions
 class SaneError(Exception):
@@ -11,12 +11,3 @@ class SaneError(Exception):
     def __str__(self):
         return self.message
 
-
-# factory function to connect a pool
-def connect(dsn, *args, **kwds):
-    pool = Pool(dsn, *args, **kwds)
-    ioloop = tornado.ioloop.IOLoop.current()
-    try:
-        return ioloop.run_sync(pool.connect)
-    except sanepg.SaneError as e:
-        raise
