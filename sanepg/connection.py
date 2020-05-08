@@ -8,6 +8,7 @@ import sanepg
 
 try:
     import psycopg2
+    import psycopg2.extras
     psycopg2.extensions.POLL_OK
 except Exception:
     raise ImportError('Please upgrade psycopg2') from None
@@ -45,6 +46,24 @@ class _Connection:
         cursor = self._conn.cursor(cursor_factory = self.cursorFactory)
         try:
             cursor.execute(statement, args)
+        except psycopg2.ProgrammingError as e:
+            raise sanepg.SaneError('%s', e) from None
+
+        callback = functools.partial(self._callback, future, cursor)
+        self._ioloop.add_handler(self._conn, callback, tornado.ioloop.IOLoop.WRITE)
+        return future
+
+    def execute_values(self, future, statement, values, template=None, page_size=100, fetch=False):
+        cursor = self._conn.cursor(cursor_factory = self.cursorFactory)
+        try:
+            psycopg2.extras.execute_values(
+                cursor,
+                statement,
+                values,
+                template  = template,
+                page_size = page_size,
+                fetch     = fetch
+                )
         except psycopg2.ProgrammingError as e:
             raise sanepg.SaneError('%s', e) from None
 

@@ -83,3 +83,17 @@ class Pool:
         self._ioloop.add_future(self._getConnection(), onConnection)
         return execFuture
 
+    def execute_values(self, statement, values):
+        execFuture = asyncio.Future()
+
+        def onConnection(f):
+            connection = f.result()
+            def onFinish(f):
+                self._pool.append(connection)
+
+            connection.execute_values(execFuture, statement, values)
+            self._ioloop.add_future(execFuture, onFinish)
+
+        self._ioloop.add_future(self._getConnection(), onConnection)
+        return execFuture
+
